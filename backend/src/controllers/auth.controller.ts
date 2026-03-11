@@ -25,8 +25,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     });
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
     res.status(201).json({ user, token });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+  } catch (err: any) {
+    console.error('Register error:', err?.message, err?.code);
+    res.status(500).json({ message: err?.message || 'Server error' });
   }
 };
 
@@ -45,8 +46,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
     res.json({ user: { id: user.id, name: user.name, email: user.email, createdAt: user.createdAt }, token });
-  } catch {
-    res.status(500).json({ message: 'Server error' });
+  } catch (err: any) {
+    console.error('Login error:', err?.message);
+    res.status(500).json({ message: err?.message || 'Server error' });
   }
 };
 
