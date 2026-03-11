@@ -3,5 +3,4 @@ dist/
 .env
 *.env.local
 .prisma/
-prisma/migrations/
 frontend/dist/
